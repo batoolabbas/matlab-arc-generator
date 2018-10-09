@@ -37,8 +37,17 @@ input_points = [r * cos(theta);
         r * sin(theta);
         zeros(size(theta))];
 
-%get required rotation to make arc parallel to desired plane
-R = vrrotvec2mat(vrrotvec([0,0,-1],axis_3D));
+%make sure desired plane isn't already parallel to x-y plane
+if(norm(cross([0,0,-1],axis_3D))~=0)
+
+    %get required rotation to make arc parallel to desired plane
+    R = vrrotvec2mat(vrrotvec([0,0,-1],axis_3D));
+    
+else
+    
+    R = eye(3);
+    
+end
 
 %apply rotation to points
 arc_points = R*input_points;
